@@ -1,6 +1,5 @@
-package com.nickzim.orderparser.parsers;
+package com.nickzim.orderparser.handlers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nickzim.orderparser.model.InputOrder;
 import com.nickzim.orderparser.model.OutputOrder;
 import org.springframework.stereotype.Component;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
@@ -18,7 +16,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
-public class JsonParser implements Parser {
+public class CsvHandler implements Handler {
 
     Path path;
     AtomicLong counter = new AtomicLong(0);
@@ -57,19 +55,18 @@ public class JsonParser implements Parser {
         counter.set(0);
         service.shutdown();
 
+
     }
 
     private InputOrder parse(String line){
-        InputOrder order;
+        String[] args = line.split(";");
         try {
-            order = new ObjectMapper().readValue(line,InputOrder.class);
-            order.setMessage("OK");
-            return order;
-        } catch (IOException exc) {
-            order = new InputOrder();
+            return new InputOrder(Long.parseLong(args[0]), Double.parseDouble(args[1]), args[2], args[3], "OK");
+        } catch (NumberFormatException exc){
+            InputOrder order = new InputOrder();
             order.setMessage(exc.getClass().getSimpleName() + " " + exc.getMessage());
+            return order;
         }
-        return order;
     }
 
     private OutputOrder convert(InputOrder order) {

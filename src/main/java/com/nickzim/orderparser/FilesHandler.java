@@ -1,6 +1,6 @@
 package com.nickzim.orderparser;
 
-import com.nickzim.orderparser.parsers.Parser;
+import com.nickzim.orderparser.handlers.Handler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FilesHandler {
 
-    private final Map<String,Parser> parsers;
+    private final Map<String, Handler> parsers;
 
     public void printFromFiles(String... files){
 

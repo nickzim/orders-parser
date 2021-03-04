@@ -1,9 +1,9 @@
-package com.nickzim.orderparser.parsers;
+package com.nickzim.orderparser.handlers;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
-public interface Parser {
+public interface Handler {
 
     void handle(Path path) throws IOException;
 

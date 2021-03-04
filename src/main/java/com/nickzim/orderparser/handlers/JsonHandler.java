@@ -1,5 +1,6 @@
-package com.nickzim.orderparser.parsers;
+package com.nickzim.orderparser.handlers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nickzim.orderparser.model.InputOrder;
 import com.nickzim.orderparser.model.OutputOrder;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
-public class CsvParser implements Parser {
+public class JsonHandler implements Handler {
 
     Path path;
     AtomicLong counter = new AtomicLong(0);
@@ -55,18 +56,19 @@ public class CsvParser implements Parser {
         counter.set(0);
         service.shutdown();
 
-
     }
 
     private InputOrder parse(String line){
-        String[] args = line.split(";");
+        InputOrder order;
         try {
-            return new InputOrder(Long.parseLong(args[0]), Double.parseDouble(args[1]), args[2], args[3], "OK");
-        } catch (NumberFormatException exc){
-            InputOrder order = new InputOrder();
-            order.setMessage(exc.getClass().getSimpleName() + " " + exc.getMessage());
+            order = new ObjectMapper().readValue(line,InputOrder.class);
+            order.setMessage("OK");
             return order;
+        } catch (IOException exc) {
+            order = new InputOrder();
+            order.setMessage(exc.getClass().getSimpleName() + " " + exc.getMessage());
         }
+        return order;
     }
 
     private OutputOrder convert(InputOrder order) {
