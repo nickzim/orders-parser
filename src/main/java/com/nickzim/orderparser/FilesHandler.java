@@ -12,10 +12,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FilesHandler {
 
-    private final Map<String, Handler> parsers;
+    private final Map<String, Handler> handlers;
 
     public void printFromFiles(String... files){
-
+        
         for (String it: files){
 
             Path file = Paths.get(it);
@@ -25,7 +25,7 @@ public class FilesHandler {
 
                 case "json":{
                     try {
-                        parsers.get("jsonParser").handle(file);
+                        handlers.get("jsonHandler").handle(file);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -33,7 +33,7 @@ public class FilesHandler {
                 }
                 case "csv":{
                     try {
-                        parsers.get("csvParser").handle(file);
+                        handlers.get("csvHandler").handle(file);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
