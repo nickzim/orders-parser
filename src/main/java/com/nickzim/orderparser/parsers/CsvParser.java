@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class CsvParser implements Parser {
-    
+
 
     @Override
     public void handle(Path path) throws IOException {
@@ -21,8 +21,8 @@ public class CsvParser implements Parser {
 
         Files.lines(path, Charset.forName("Windows-1251"))
                 .parallel()
-                .map(str ->{
-                    String[] args = str.split(";");
+                .map(line ->{
+                    String[] args = line.split(";");
                     try {
                         return new InputOrder(Long.parseLong(args[0]), Double.parseDouble(args[1]), args[2], args[3], "OK");
                     } catch (NumberFormatException exc){

@@ -21,10 +21,10 @@ public class JsonParser implements Parser {
 
         Files.lines(path, StandardCharsets.UTF_8)
                 .parallel()
-                .map(str -> {
+                .map(line -> {
                     InputOrder order;
                     try {
-                        order = objectMapper.readValue(str,InputOrder.class);
+                        order = objectMapper.readValue(line,InputOrder.class);
                         order.setMessage("OK");
                         return order;
                     } catch (IOException exc) {
