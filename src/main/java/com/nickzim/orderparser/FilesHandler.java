@@ -10,11 +10,11 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class OutputWriter {
+public class FilesHandler {
 
     private final Map<String,Parser> parsers;
 
-    public void writeFromFiles(String... files){
+    public void printFromFiles(String... files){
 
         for (String it: files){
 

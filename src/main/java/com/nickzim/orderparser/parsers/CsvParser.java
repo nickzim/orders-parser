@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class CsvParser implements Parser {
+    
 
     @Override
     public void handle(Path path) throws IOException {
@@ -19,6 +20,7 @@ public class CsvParser implements Parser {
         AtomicLong counter = new AtomicLong(0);
 
         Files.lines(path, Charset.forName("Windows-1251"))
+                .parallel()
                 .map(str ->{
                     String[] args = str.split(";");
                     try {

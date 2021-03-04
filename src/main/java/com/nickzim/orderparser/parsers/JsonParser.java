@@ -20,6 +20,7 @@ public class JsonParser implements Parser {
         AtomicLong counter = new AtomicLong(0);
 
         Files.lines(path, StandardCharsets.UTF_8)
+                .parallel()
                 .map(str -> {
                     InputOrder order;
                     try {
