@@ -1,8 +1,6 @@
-package com.nickzim;
+package com.nickzim.orderparser;
 
-import com.nickzim.parsers.CsvParser;
-import com.nickzim.parsers.JsonParser;
-import com.nickzim.parsers.Parser;
+import com.nickzim.orderparser.parsers.Parser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +19,13 @@ public class OutputWriter {
         for (String it: files){
 
             Path file = Paths.get(it);
-            String extension = file.toString().substring(file.toString().indexOf('.') + 1);
+            String extension = it.substring(it.indexOf('.') + 1);
 
             switch (extension.toLowerCase()){
-                
+
                 case "json":{
                     try {
-                        parsers.get("jsonParser").convert(file);
+                        parsers.get("jsonParser").handle(file);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -35,12 +33,13 @@ public class OutputWriter {
                 }
                 case "csv":{
                     try {
-                        parsers.get("csvParser").convert(file);
+                        parsers.get("csvParser").handle(file);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
                 }
+
             }
         }
     }

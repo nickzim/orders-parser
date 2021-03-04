@@ -1,4 +1,4 @@
-package com.nickzim.model;
+package com.nickzim.orderparser.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,4 +15,5 @@ public class InputOrder {
     private double amount;
     private String currency;
     private String comment;
+    private String message;
 }

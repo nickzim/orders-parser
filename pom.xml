@@ -28,7 +28,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.nickzim.Main</mainClass>
+                            <mainClass>com.nickzim.orderparser.Main</mainClass>
                         </manifest>
                     </archive>
                     <finalName>orders-parser</finalName>

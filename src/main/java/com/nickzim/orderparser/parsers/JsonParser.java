@@ -1,8 +1,8 @@
-package com.nickzim.parsers;
+package com.nickzim.orderparser.parsers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nickzim.model.InputOrder;
-import com.nickzim.model.OutputOrder;
+import com.nickzim.orderparser.model.InputOrder;
+import com.nickzim.orderparser.model.OutputOrder;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -15,21 +15,25 @@ import java.util.concurrent.atomic.AtomicLong;
 public class JsonParser implements Parser {
 
     @Override
-    public void convert(Path path) throws IOException {
+    public void handle(Path path) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         AtomicLong counter = new AtomicLong(0);
 
         Files.lines(path, StandardCharsets.UTF_8)
                 .map(str -> {
+                    InputOrder order;
                     try {
-                        return objectMapper.readValue(str,InputOrder.class);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        order = objectMapper.readValue(str,InputOrder.class);
+                        order.setMessage("OK");
+                        return order;
+                    } catch (IOException exc) {
+                        order = new InputOrder();
+                        order.setMessage(exc.getClass().getSimpleName() + " " + exc.getMessage());
                     }
-                    return new InputOrder();
+                    return order;
                 })
                 .map(order -> new OutputOrder(order.getOrderId(),order.getAmount(),order.getCurrency(),
-                                              order.getComment(),path.toString(),counter.incrementAndGet(),"OK"))
+                                              order.getComment(),path.toString(),counter.incrementAndGet(),order.getMessage()))
                 .forEach(System.out::println);
 
     }

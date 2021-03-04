@@ -1,7 +1,8 @@
-package com.nickzim.model;
+package com.nickzim.orderparser.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,18 +10,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OutputOrder extends InputOrder {
+@AllArgsConstructor
+public class OutputOrder {
 
+    private long orderId;
+    private double amount;
+    private String currency;
+    private String comment;
     private String filename;
     private long line;
     private String result;
 
-    public OutputOrder(long orderId, double amount, String currency, String comment, String filename, long line, String result) {
-        super(orderId, amount, currency, comment);
-        this.filename = filename;
-        this.line = line;
-        this.result = result;
-    }
 
     @Override
     public String toString() {
