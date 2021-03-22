@@ -15,7 +15,7 @@ public class FilesHandler {
     private final Map<String, Handler> handlers;
 
     public void printFromFiles(String... files){
-        
+
         for (String it: files){
 
             Path file = Paths.get(it);
